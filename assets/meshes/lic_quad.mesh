@@ -1,9 +1,0 @@
-# Bevy Mesh Asset - Fullscreen Quad for LIC
-# This is a simple quad covering NDC space
-
-mesh:
-  primitive_topology: TriangleList
-  attributes:
-    POSITION: [[-1.0, -1.0, 0.0], [3.0, -1.0, 0.0], [-1.0, 3.0, 0.0], [-1.0, 3.0, 0.0]]
-    UV: [[0.0, 1.0], [2.0, 1.0], [0.0, -1.0], [0.0, -1.0]]
-  indices: [0, 1, 2]
