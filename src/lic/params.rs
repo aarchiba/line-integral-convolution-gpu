@@ -1,5 +1,9 @@
 //! LIC parameters
 
+// bytemuck_derive emits a per-field `fn check` that newer rustc flags as
+// dead_code. Allow it for this module (upstream toolchain noise, not our code).
+#![allow(dead_code)]
+
 use bevy::render::render_resource::ShaderType;
 use bytemuck::{Pod, Zeroable};
 

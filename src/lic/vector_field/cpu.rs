@@ -144,7 +144,7 @@ impl CpuVectorFieldNode {
         
         let pipeline = render_device.create_compute_pipeline(
             &RawComputePipelineDescriptor {
-                label: Some("vecfield_px_to_uv_pipeline".into()),
+                label: Some("vecfield_px_to_uv_pipeline"),
                 layout: Some(&pipeline_layout),
                 module: &shader,
                 entry_point: "main".into(),
@@ -243,7 +243,7 @@ impl VectorFieldNode for CpuVectorFieldNode {
             });
             compute_pass.set_pipeline(pipeline);
             compute_pass.set_bind_group(0, bind_group, &[]);
-            let workgroup_count = ((self.width + 15) / 16, (self.height + 15) / 16, 1);
+            let workgroup_count = (self.width.div_ceil(16), self.height.div_ceil(16), 1);
             compute_pass.dispatch_workgroups(workgroup_count.0, workgroup_count.1, workgroup_count.2);
         }
         
