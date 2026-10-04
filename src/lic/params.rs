@@ -94,4 +94,25 @@ impl LicParams {
 
         params
     }
+
+    /// Build kernel parameters from explicit weight slices.
+    ///
+    /// `forward[0]` is the center weight; `forward[i]` covers step `i`
+    /// forward and `backward[i]` covers step `i + 1` backward (same
+    /// contract as [`LicParams::triangular_kernel`]). Slices longer than
+    /// [`MAX_STEPS`] are truncated to fit the uniform buffer.
+    pub fn from_weights(forward: &[f32], backward: &[f32]) -> Self {
+        let mut params = Self::default();
+        let fwd_len = forward.len().min(MAX_STEPS);
+        let bwd_len = backward.len().min(MAX_STEPS);
+        for (i, &w) in forward[..fwd_len].iter().enumerate() {
+            Self::set(&mut params.forward_weights, i, w);
+        }
+        for (i, &w) in backward[..bwd_len].iter().enumerate() {
+            Self::set(&mut params.backward_weights, i, w);
+        }
+        params.forward_count = fwd_len as u32;
+        params.backward_count = bwd_len as u32;
+        params
+    }
 }

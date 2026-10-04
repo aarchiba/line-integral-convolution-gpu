@@ -33,7 +33,10 @@ pub fn constant_vertical(width: u32, height: u32, strength: f32) -> Vec<f32> {
 /// Vortex field: `(-dy, dx) / r^2 * strength`, where `(dx, dy)` is the offset
 /// from `center` in pixels and `r^2 = dx^2 + dy^2`.
 ///
-/// Returns the zero vector at the exact center (singularity) to avoid NaN.
+/// The vector magnitude is `strength / r`, so `strength` (in px²) is the
+/// amplitude exactly one pixel away from the center: e.g. `strength = 60.0`
+/// gives a 1 px step at `r = 60` px. Returns the zero vector at the exact
+/// center (singularity) to avoid NaN.
 pub fn vortex(
     width: u32,
     height: u32,

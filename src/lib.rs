@@ -7,9 +7,13 @@ pub mod lic;
 pub mod material;
 pub mod noise;
 
-use lic::{setup_lic_display, LicMaterial};
+use lic::{setup_lic_scene, LicMaterial, LicSceneSpec};
 
-pub fn build_app() -> App {
+/// Build the app from a user-provided scene spec. There are no built-in
+/// defaults for ink, vector field, or kernel: the spec's generators produce
+/// the initial values (at `t = 0`) and any scheduled `update_lic_*` system
+/// re-evaluates them every frame.
+pub fn build_app(spec: LicSceneSpec) -> App {
     let mut app = App::new();
     app.add_plugins(DefaultPlugins.set(WindowPlugin {
         primary_window: Some(Window {
@@ -20,7 +24,8 @@ pub fn build_app() -> App {
         ..default()
     }))
     .add_plugins(Material2dPlugin::<LicMaterial>::default())
-    .add_systems(Startup, setup_lic_display);
+    .insert_resource(spec)
+    .add_systems(Startup, setup_lic_scene);
 
     app
 }
