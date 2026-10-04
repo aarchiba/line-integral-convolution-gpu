@@ -4,6 +4,9 @@
 //! with explicit counts. GPU layout packs them as `vec4` arrays because WGSL
 //! `uniform` address space requires array stride 16 — a plain
 //! `array<f32, 256>` is rejected by naga/wgpu validation.
+//!
+//! Scale-invariant: output is `acc / wsum`, so scaling all weights by a
+//! constant cancels out — only relative weights matter.
 
 // bytemuck_derive emits a per-field `fn check` that newer rustc flags as
 // dead_code. Allow it for this module (upstream toolchain noise, not our code).

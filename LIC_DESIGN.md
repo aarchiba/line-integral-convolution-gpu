@@ -93,6 +93,12 @@ Explicit counts passed as uniforms (avoids iterating unused elements):
 
 `MAX_STEPS = 256` (configurable, 2 KB total for both arrays).
 
+**Scale-invariance:** output is `acc / wsum`, so scaling all weights by a constant cancels out — only relative weights matter, there is no need to pre-normalize the kernel to sum to one.
+
+## Boundary Handling
+
+Per-axis sampler-native modes (`ClampToEdge` default, `Repeat`, `MirrorRepeat` via Bevy `ImageSamplerDescriptor`), applied identically to noise and vector-field sampling. No `Zero` mode (see `docs/adr/0001-sampler-native-boundary-modes.md`). Because every tap resolves in-bounds, `wsum` is kernel-constant.
+
 ## Uniform Buffer (LicParams)
 
 ```wgsl

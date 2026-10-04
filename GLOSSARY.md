@@ -32,9 +32,16 @@ Two 1D arrays in uniform buffer:
 - `backward[i]` = weight for step `i+1` backward from center (i ≥ 0)
 Explicit counts: `forward_count` (includes center), `backward_count`. MAX_STEPS = 256.
 
+Scale-invariant: scaling all weights by a constant cancels in `acc / wsum`, so only relative weights matter.
+
 ## Streamline Integration
 
 For each output pixel: start at pixel center, step along vector field direction (forward/backward), accumulate `noise(sample_pos) * weight`, normalize by sum of weights.
+
+## Boundary Mode
+
+Per-axis rule for resolving streamline samples that fall outside the domain. Variants are `ClampToEdge`, `Repeat`, `MirrorRepeat` (Bevy `ImageAddressMode` names); default is `ClampToEdge` on both axes.
+_Avoid_: zero, extend, wrap, border mode, edge mode
 
 ## Uniform Buffer
 
