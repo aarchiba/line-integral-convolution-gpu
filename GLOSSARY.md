@@ -15,11 +15,14 @@ Input texture providing the "ink" for LIC. Typically grayscale Perlin noise. Sam
 **Critical:** Always stores UV-space step vectors, never pixel-space. Conversion happens once in production pipeline.
 
 ## VectorFieldNode (trait)
-
 Abstraction for vector field production. Three implementations:
 - `CpuVectorFieldNode`: CPU pixel-space data → upload → compute (px→UV) → cooked texture
 - `GpuComputeVectorFieldNode`: User compute shader (pixel-space) → compute (px→UV) → cooked texture
 - `PrecookedVectorFieldNode`: Zero-copy pass-through of existing UV-space texture view
+
+## Analytical Vector Field
+
+A vector field defined by a closed-form formula (constant, vortex, saddle) rather than measured data or noise. Used as an exact test fixture: its symmetries turn rendering properties into executable assertions.
 
 ## Weighting Kernel (Kernel)
 

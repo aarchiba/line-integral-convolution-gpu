@@ -156,6 +156,21 @@ The material binds **texture views** (`GpuTextureView`), not Bevy `Handle<Image>
 @fragment fn fs_main(@location(0) uv: vec2<f32>) -> @location(0) vec4<f32> { ... }
 ```
 
+## Shader File Locations
+
+Shaders live in two places, split by loading mechanism:
+
+- `assets/shaders/*.wgsl` — **Bevy asset shaders** (`noise_display.wgsl`,
+  `lic.wgsl`). Referenced by path from `Material2d::fragment_shader()`
+  (`"shaders/xxx.wgsl"`). They go through Bevy's shader preprocessor (hence
+  `#import bevy_sprite::...`), get hot-reload, and are validated at render-world
+  extraction time.
+- `src/lic/shaders/*.wgsl` — **inline shaders** (`vecfield_px_to_uv.wgsl`).
+  Loaded with `include_str!` in `vector_field/cpu.rs` and compiled directly via
+  `RenderDevice::create_shader_module`. No `#import` support, no hot-reload —
+  but the WGSL is versioned alongside the Rust code that builds its bind-group
+  layout, so the two can't drift.
+
 ## Public API (Rust Module)
 
 ```

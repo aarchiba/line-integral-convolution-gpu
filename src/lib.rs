@@ -3,11 +3,11 @@
 use bevy::prelude::*;
 use bevy::sprite::Material2dPlugin;
 
-pub mod noise;
-pub mod material;
 pub mod lic;
+pub mod material;
+pub mod noise;
 
-use material::{NoiseDisplayMaterial, setup_noise_display};
+use lic::{setup_lic_display, LicMaterial};
 
 pub fn build_app() -> App {
     let mut app = App::new();
@@ -19,9 +19,8 @@ pub fn build_app() -> App {
         }),
         ..default()
     }))
-    .insert_resource(ClearColor(Color::srgb(0.1, 0.2, 0.4)))
-    .add_plugins(Material2dPlugin::<NoiseDisplayMaterial>::default())
-    .add_systems(Startup, setup_noise_display);
+    .add_plugins(Material2dPlugin::<LicMaterial>::default())
+    .add_systems(Startup, setup_lic_display);
 
     app
 }

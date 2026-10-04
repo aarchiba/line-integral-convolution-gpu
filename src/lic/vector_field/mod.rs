@@ -21,6 +21,7 @@ pub trait VectorFieldNode: Send + Sync + 'static {
     fn size(&self) -> UVec2;
 }
 
+pub mod analytical;
 pub mod cpu;
 pub mod precooked;
 
